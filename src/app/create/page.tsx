@@ -9,9 +9,9 @@ export const metadata: Metadata = {
 export default function CreatePage() {
   return (
     <div className="mx-auto w-full max-w-6xl px-4 pt-12 pb-20 sm:px-6 sm:pt-16">
-      <div className="mb-12 max-w-2xl">
+      <div className="mb-12 max-w-3xl">
         <p className="mb-3 text-xs uppercase tracking-[0.3em] text-gold">Light a lantern</p>
-        <h1 className="font-display text-4xl leading-tight text-ivory sm:text-5xl">
+        <h1 className="font-display text-4xl leading-tight text-balance text-ivory sm:text-5xl">
           Tell us about someone you love.
         </h1>
         <p className="mt-4 font-serif text-lg leading-relaxed text-mist">
