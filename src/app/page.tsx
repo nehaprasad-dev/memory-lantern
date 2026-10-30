@@ -160,9 +160,9 @@ export default function Home() {
                 <strong className="font-medium text-parchment">
                   It isn&apos;t offline or on-device.
                 </strong>{" "}
-                To write your keepsake, the server sends your text to a hosted inference provider
-                through Hugging Face Inference Providers, which runs the model and returns the
-                writing. That provider processes your text under its own terms and policies. If
+                To write your keepsake, the server sends your text to Groq, a hosted inference
+                provider, which runs the model and returns the writing. Groq processes your text
+                under its own terms and privacy policy. If
                 you need full privacy, you can run the same open-weight model yourself and point
                 Memory Lantern at it.
               </p>
@@ -177,8 +177,8 @@ export default function Home() {
                 download, inspect and run its weights.
               </p>
               <p>
-                Memory Lantern reaches it through Hugging Face&apos;s OpenAI-compatible router,
-                so you can swap in another open model — or your own server — with a single
+                Memory Lantern reaches it through Groq&apos;s OpenAI-compatible API, so you
+                can swap in another open model — or your own server — with a single
                 environment variable.
               </p>
             </div>
