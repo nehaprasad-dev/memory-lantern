@@ -1,20 +1,18 @@
 import type { Metadata, Viewport } from "next";
-import { Cormorant_Garamond, Inter, Newsreader } from "next/font/google";
+import { Fraunces, Inter, Newsreader } from "next/font/google";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import "./globals.css";
 
-const cormorant = Cormorant_Garamond({
-  variable: "--font-cormorant",
+const fraunces = Fraunces({
+  variable: "--font-fraunces",
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
-  style: ["normal", "italic"],
+  axes: ["opsz"],
 });
 
 const newsreader = Newsreader({
   variable: "--font-newsreader",
   subsets: ["latin"],
-  style: ["normal", "italic"],
 });
 
 const inter = Inter({
@@ -32,14 +30,14 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0f0e0c",
+  themeColor: "#faf7f1",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${cormorant.variable} ${newsreader.variable} ${inter.variable} h-full antialiased`}
+      className={`${fraunces.variable} ${newsreader.variable} ${inter.variable} h-full antialiased`}
     >
       <body className="candlelight flex min-h-full flex-col">
         <SiteHeader />
