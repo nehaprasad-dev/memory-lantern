@@ -65,7 +65,8 @@ export function ErrorPanel({
   error: GenerateFailure["error"];
   onRetry?: () => void;
 }) {
-  const retryable = error.code !== "validation_failed" && error.code !== "not_configured";
+  // Retrying can't fix bad input, a missing token, or an account problem.
+  const retryable = !["validation_failed", "not_configured", "provider_auth"].includes(error.code);
   return (
     <div role="alert" className="rounded-2xl border border-rose/40 bg-rose/[0.06] p-5">
       <p className="font-display text-xl text-ivory">The lantern flickered</p>
