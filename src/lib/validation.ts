@@ -11,6 +11,7 @@ import type {
 export const LIMITS: Record<MemoryField, { min: number; max: number }> = {
   name: { min: 1, max: 80 },
   relationship: { min: 2, max: 80 },
+  writerName: { min: 0, max: 80 },
   memories: { min: 40, max: 3000 },
   moments: { min: 0, max: 2000 },
   favourites: { min: 0, max: 1200 },
@@ -23,7 +24,8 @@ const STATUS_IDS: PersonStatus[] = ["living", "passed", "unspecified"];
 
 const FIELD_LABELS: Record<MemoryField, string> = {
   name: "Their name",
-  relationship: "Your relationship",
+  relationship: "Who they are to you",
+  writerName: "Your name",
   memories: "Your memories",
   moments: "Important moments",
   favourites: "Favourite things",
@@ -33,6 +35,7 @@ const FIELD_LABELS: Record<MemoryField, string> = {
 export const EMPTY_INPUT: MemoryInput = {
   name: "",
   relationship: "",
+  writerName: "",
   status: "unspecified",
   memories: "",
   moments: "",
@@ -96,6 +99,7 @@ export function parseInput(raw: unknown): MemoryInput | null {
   const fields = {
     name: str("name"),
     relationship: str("relationship"),
+    writerName: str("writerName"),
     memories: str("memories"),
     moments: str("moments"),
     favourites: str("favourites"),
@@ -110,6 +114,7 @@ export function parseInput(raw: unknown): MemoryInput | null {
   return {
     name: cleanText(fields.name!),
     relationship: cleanText(fields.relationship!),
+    writerName: cleanText(fields.writerName!),
     memories: cleanText(fields.memories!),
     moments: cleanText(fields.moments!),
     favourites: cleanText(fields.favourites!),
