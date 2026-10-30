@@ -39,7 +39,7 @@ Shaping those scattered memories into something whole is hard. Maybe you want a 
 
 Memory Lantern is built on three simple promises:
 
-1. **Only your memories — nothing invented.** The AI can add warmth and feeling, but it will never make up facts, dates, quotes, or events you didn't give it.
+1. **Only your memories — nothing invented.** The AI can add warmth and feeling, but it's instructed never to make up facts, dates, quotes, or events you didn't give it.
 2. **It writes as you, never as them.** Everything is written in *your* voice, about the person. It never pretends to be them, never writes fake "messages from" someone who died, and never suggests they're speaking from beyond.
 3. **Nothing is saved.** There are no accounts and no database. What you write stays in your browser and is gone the moment you close the tab.
 
@@ -64,13 +64,13 @@ Memory Lantern is built on three simple promises:
 
 ## See it running (quick start)
 
-**You'll need:** [Node.js](https://nodejs.org) version 20.9 or newer, and a free [Hugging Face](https://huggingface.co) account.
+**You'll need:** [Node.js](https://nodejs.org) version 20.9 or newer, and a free [Groq](https://console.groq.com) account. No credit card is needed.
 
 ### Step 1 — Get your free AI key
 
-Hugging Face is the service that runs the AI model for you. Go to [huggingface.co/settings/tokens](https://huggingface.co/settings/tokens), create a **fine-grained** token, and turn on the option that says **"Make calls to Inference Providers."** Copy the token it gives you — it starts with `hf_`.
+Groq is the service that runs the AI model for you. Sign in at [console.groq.com](https://console.groq.com), open [API Keys](https://console.groq.com/keys), and click **Create API Key**. Copy the key it gives you — it starts with `gsk_`. You only see it once, so keep it somewhere safe.
 
-> New accounts get a small amount of free usage each month. After that, it costs a few cents per keepsake.
+> Groq's free tier is enough to use Memory Lantern. It has limits: at the time of writing, about 8,000 tokens and 30 requests a minute for this model (roughly 2–3 keepsakes a minute) and 1,000 requests a day. If you hit a limit, the app asks you to wait a minute and try again. You can check your current limits at [console.groq.com/settings/limits](https://console.groq.com/settings/limits).
 
 ### Step 2 — Download the project
 
@@ -91,7 +91,7 @@ cp .env.example .env.local
 Open the new `.env.local` file in any text editor and paste in your key:
 
 ```env
-HF_TOKEN=hf_your_token_here
+GROQ_API_KEY=gsk_your_key_here
 ```
 
 ### Step 4 — Start it up
@@ -117,10 +117,10 @@ All of these go in your `.env.local` file. Only the first one is required.
 
 | Setting | What it's for | Default |
 |---|---|---|
-| `HF_TOKEN` | **Required.** Your Hugging Face key. It stays on the server and is never shown to visitors. | *(none)* |
-| `HF_MODEL` | Which AI model to use. You can swap in a different open model here. | `openai/gpt-oss-20b` |
-| `HF_BASE_URL` | Where to send requests. Change this if you're running the AI on your own computer. | Hugging Face's address |
-| `HF_REASONING_EFFORT` | How hard the model "thinks" before answering: `low`, `medium`, `high`, or `none`. | `low` |
+| `GROQ_API_KEY` | **Required.** Your Groq key. It stays on the server and is never shown to visitors. | *(none)* |
+| `GROQ_MODEL` | Which AI model to use. You can swap in a different open model here. | `openai/gpt-oss-20b` |
+| `GROQ_BASE_URL` | Where to send requests. Change this if you're running the AI on your own computer. | `https://api.groq.com/openai/v1` |
+| `GROQ_REASONING_EFFORT` | How hard the model "thinks" before answering: `low`, `medium`, `high`, or `none`. | `low` |
 | `RATE_LIMIT_PER_MINUTE` | How many keepsakes one visitor can make per minute, to prevent overuse. | `8` |
 
 ---
@@ -183,7 +183,7 @@ src/
 ├─ lib/                          the logic and helpers
 │  ├─ ai/
 │  │  ├─ prompts.ts              the instructions we give the AI (the heart of the app)
-│  │  ├─ huggingface.ts          the code that actually calls the AI
+│  │  ├─ groq.ts                 the code that actually calls the AI
 │  │  └─ generate.ts             ties the prompt and the call together
 │  ├─ validation.ts              the rules for checking the form
 │  ├─ keepsake-text.ts           tidies and formats the AI's writing
@@ -201,20 +201,14 @@ src/
 | | |
 |---|---|
 | **The model** | [GPT-OSS 20B](https://huggingface.co/openai/gpt-oss-20b) — a capable open model from OpenAI, free for anyone to use. |
-| **Who runs it** | [Hugging Face](https://huggingface.co/docs/inference-providers), which runs the model on their servers so you don't have to. |
-| **How we talk to it** | A simple, direct connection with no heavy extra software - all the code is in one short file, [`huggingface.ts`](src/lib/ai/huggingface.ts), so you can read exactly what's sent. |
+| **Who runs it** | [Groq](https://console.groq.com/docs/model/openai/gpt-oss-20b), which runs the model on their servers so you don't have to. Its free tier is all you need. |
+| **How we talk to it** | A simple, direct connection with no heavy extra software - all the code is in one short file, [`groq.ts`](src/lib/ai/groq.ts), so you can read exactly what's sent. |
 
 **Why an open model and not something like ChatGPT or Claude?**
 Because an open model belongs to everyone. Anyone can download it, see how it works, and run it themselves — on a cloud service today, or on their own computer tomorrow — without asking permission or being tied to one company. It's also small enough to run on a single good graphics card, or even a decent laptop.
 
 **Want to use a different provider?**
-You can pick which company runs the model by adding its name to the `HF_MODEL` setting:
-
-```bash
-HF_MODEL=openai/gpt-oss-20b:groq
-HF_MODEL=openai/gpt-oss-20b:cerebras
-HF_MODEL=openai/gpt-oss-20b:fireworks-ai
-```
+Any service with an OpenAI-compatible API will work. Point `GROQ_BASE_URL` at it, set `GROQ_MODEL` to that service's name for the model, and put that service's key in `GROQ_API_KEY`.
 
 **Want to run the AI entirely on your own computer?**
 You can — nothing then ever leaves your machine. Tools like [vLLM](https://github.com/vllm-project/vllm) or [Ollama](https://ollama.com) will run the model locally:
@@ -224,12 +218,12 @@ You can — nothing then ever leaves your machine. Tools like [vLLM](https://git
 ollama pull gpt-oss:20b
 
 # then put these in your .env.local:
-HF_BASE_URL=http://localhost:11434/v1
-HF_MODEL=gpt-oss:20b
-HF_TOKEN=ollama      # any word works here when running locally
+GROQ_BASE_URL=http://localhost:11434/v1
+GROQ_MODEL=gpt-oss:20b
+GROQ_API_KEY=ollama  # any word works here when running locally
 ```
 
-> If your local setup complains about the "reasoning" setting, add `HF_REASONING_EFFORT=none`.
+> If your local setup complains about the "reasoning" setting, add `GROQ_REASONING_EFFORT=none`.
 
 ---
 
@@ -256,7 +250,7 @@ npm start
 
 Just remember two things:
 
-- Add your `HF_TOKEN` as a **secret** setting in your hosting dashboard. Never put it in a file you share publicly.
+- Add your `GROQ_API_KEY` as a **secret** setting in your hosting dashboard. Never put it in a file you share publicly.
 - The built-in overuse limit works per server. If you run several servers at once, you'll want a shared limit (many hosts offer this) instead.
 
 ---
@@ -265,11 +259,11 @@ Just remember two things:
 
 Memory Lantern deals with some of the most personal writing there is, so here's exactly what happens to your words — in plain terms.
 
-**In your browser:** Everything you type stays in your browser and nowhere else. Nothing is saved to your device. Close or refresh the tab and it's all gone.
+**In your browser:** What you type stays in your browser tab until you press the button to write your keepsake. Nothing is saved to your device. Close or refresh the tab and it's all gone.
 
 **On Memory Lantern's server:** Your words pass through just long enough to be turned into a keepsake. They aren't saved, written to disk, or kept in any logs. If an error happens, only the error itself is recorded — never your memories.
 
-**At the AI service — and this is important:** Memory Lantern is *not* fully private or offline. To write your keepsake, your words are sent to Hugging Face, which passes them to whichever company is running the model (such as Groq, Cerebras, or Fireworks). Those companies handle your text under their own privacy rules. If what you're writing is very sensitive, please read [Hugging Face's privacy information](https://huggingface.co/docs/inference-providers) first.
+**At the AI service — and this is important:** Memory Lantern is *not* fully private or offline. To write your keepsake, your words are sent to Groq, the company that runs the model. Groq handles your text under its own privacy rules. If what you're writing is very sensitive, please read [Groq's privacy policy](https://groq.com/privacy-policy) first.
 
 **If you want complete privacy:** run the AI model on your own computer (see [above](#about-the-ai-model)). Then your words never leave your own machine.
 
