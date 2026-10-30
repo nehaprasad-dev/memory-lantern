@@ -94,7 +94,7 @@ export function KeepsakeReader({ keepsake, personName, regenerating, onRegenerat
       </span>
 
       <div
-        className={`grain rounded-2xl border border-line/80 bg-ash/80 px-6 py-10 shadow-[0_30px_80px_-40px_rgb(0_0_0/0.9)] transition-opacity sm:px-12 sm:py-14 ${
+        className={`grain rounded-2xl border border-line/80 bg-ash px-6 py-10 shadow-[0_24px_60px_-36px_rgb(60_40_10/0.35)] transition-opacity sm:px-12 sm:py-14 ${
           regenerating ? "opacity-50" : ""
         }`}
       >
