@@ -43,7 +43,7 @@ export default function Home() {
           <h1 className="font-display text-5xl leading-[1.05] text-ivory sm:text-7xl">
             Keep the light of
             <br />
-            <em className="text-gold-soft">the ones you love.</em>
+            <span className="text-gold-soft">the ones you love.</span>
           </h1>
           <p className="mt-7 max-w-2xl font-serif text-lg leading-relaxed text-mist sm:text-xl">
             Memory Lantern turns the small details you carry — their favourite song, the food
@@ -53,7 +53,7 @@ export default function Home() {
           <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row">
             <Link
               href="/create"
-              className="rounded-full bg-gold px-8 py-3.5 text-sm font-semibold text-night shadow-[0_0_50px_-10px_rgb(232_162_79/0.8)] transition-colors hover:bg-gold-soft"
+              className="rounded-full bg-gold px-8 py-3.5 text-sm font-semibold text-night shadow-[0_10px_30px_-12px_rgb(165_112_31/0.6)] transition-all hover:-translate-y-0.5 hover:bg-gold-soft"
             >
               Begin a keepsake
             </Link>
@@ -120,7 +120,7 @@ export default function Home() {
             ))}
           </div>
           <figure className="mx-auto mt-16 max-w-2xl text-center">
-            <blockquote className="font-display text-2xl italic leading-snug text-parchment sm:text-3xl">
+            <blockquote className="font-display text-2xl leading-snug text-parchment sm:text-3xl">
               &ldquo;You hummed while you cooked, always a little off-key, and pretended not to see
               me stealing a taste of the dal.&rdquo;
             </blockquote>
@@ -190,12 +190,12 @@ export default function Home() {
       <section className="border-t border-line/60">
         <div className="mx-auto flex max-w-3xl flex-col items-center px-4 py-24 text-center sm:px-6">
           <Lantern className="mb-8 h-16 w-16" />
-          <h2 className="font-display text-4xl leading-tight text-ivory sm:text-5xl">
+          <h2 className="font-display text-4xl leading-tight text-balance text-ivory sm:text-5xl">
             Who would you like to remember?
           </h2>
           <Link
             href="/create"
-            className="mt-10 rounded-full bg-gold px-8 py-3.5 text-sm font-semibold text-night shadow-[0_0_50px_-10px_rgb(232_162_79/0.8)] transition-colors hover:bg-gold-soft"
+            className="mt-10 rounded-full bg-gold px-8 py-3.5 text-sm font-semibold text-night shadow-[0_10px_30px_-12px_rgb(165_112_31/0.6)] transition-all hover:-translate-y-0.5 hover:bg-gold-soft"
           >
             Light a lantern
           </Link>
@@ -217,7 +217,7 @@ function SectionTitle({
   return (
     <div className={align === "center" ? "text-center" : ""}>
       <p className="mb-3 text-xs uppercase tracking-[0.3em] text-gold">{eyebrow}</p>
-      <h2 className="font-display text-4xl leading-tight text-ivory sm:text-5xl">{title}</h2>
+      <h2 className="font-display text-4xl leading-tight text-balance text-ivory sm:text-5xl">{title}</h2>
     </div>
   );
 }
