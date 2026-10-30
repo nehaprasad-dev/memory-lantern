@@ -63,8 +63,8 @@ export function MemoryStudio() {
   };
 
   return (
-    <div className="grid gap-10 lg:grid-cols-[minmax(0,5fr)_minmax(0,6fr)] lg:gap-14">
-      <div>
+    <div className="grid gap-10 lg:grid-cols-2 lg:gap-10">
+      <div className="rounded-3xl border border-line/70 bg-ash/70 p-5 shadow-[0_24px_60px_-40px_rgb(60_40_10/0.35)] sm:p-8">
         <MemoryForm
           value={input}
           errors={errors}
