@@ -2,7 +2,7 @@
 
 > *Tell it about someone you love, and it writes you a letter, a short story, or a remembrance card you can keep.*
 
-Memory Lantern is a small, free, open-source website. You type in the things you remember about a person — their name, who they were to you, the songs they loved, the food they made, the little things they always said — and it gently turns those memories into a piece of writing you can read, copy, and save.
+Memory Lantern is a small, free, open-source website. You type in the things you remember about a person - their name, who they were to you, the songs they loved, the food they made, the little things they always said - and it gently turns those memories into a piece of writing you can read, copy, and save.
 
 The writing is done by an AI model called **GPT-OSS 20B**. It's an "open-weight" model, which just means it's free for anyone to download and use, and it isn't locked to a single company.
 
@@ -142,7 +142,7 @@ Step by step:
 
 1. **It checks your form.** Before anything is sent, the app makes sure the required fields are filled in and not too long. The same check runs again on the server, so nothing slips through.
 2. **It protects the server.** It turns away requests that are too big or malformed, and limits how often one person can ask, so the service stays available for everyone.
-3. **It writes careful instructions for the AI.** Your memories are clearly marked as *your words to write from* — not as commands — and the AI is given firm rules: stick to the facts you gave, match the format and tone, and never speak as the person.
+3. **It writes careful instructions for the AI.** Your memories are clearly marked as *your words to write from* - not as commands — and the AI is given firm rules: stick to the facts you gave, match the format and tone, and never speak as the person.
 4. **It asks the AI.** The request goes off to the model and waits up to 60 seconds for an answer.
 5. **If something goes wrong,** it explains it in plain language — a bad key, the service being busy, a timeout — instead of showing a scary error. And it never writes your private memories into its logs.
 6. **It tidies up the writing** and lays it out beautifully for the format you chose.
@@ -202,7 +202,7 @@ src/
 |---|---|
 | **The model** | [GPT-OSS 20B](https://huggingface.co/openai/gpt-oss-20b) — a capable open model from OpenAI, free for anyone to use. |
 | **Who runs it** | [Hugging Face](https://huggingface.co/docs/inference-providers), which runs the model on their servers so you don't have to. |
-| **How we talk to it** | A simple, direct connection with no heavy extra software — all the code is in one short file, [`huggingface.ts`](src/lib/ai/huggingface.ts), so you can read exactly what's sent. |
+| **How we talk to it** | A simple, direct connection with no heavy extra software - all the code is in one short file, [`huggingface.ts`](src/lib/ai/huggingface.ts), so you can read exactly what's sent. |
 
 **Why an open model and not something like ChatGPT or Claude?**
 Because an open model belongs to everyone. Anyone can download it, see how it works, and run it themselves — on a cloud service today, or on their own computer tomorrow — without asking permission or being tied to one company. It's also small enough to run on a single good graphics card, or even a decent laptop.
@@ -247,7 +247,7 @@ HF_TOKEN=ollama      # any word works here when running locally
 
 ## Putting it online
 
-Memory Lantern can be hosted almost anywhere that runs modern web apps — Vercel, Netlify, Railway, your own server, and more.
+Memory Lantern can be hosted almost anywhere that runs modern web apps - Vercel, Netlify, Railway, your own server, and more.
 
 ```bash
 npm run build
