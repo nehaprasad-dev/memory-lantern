@@ -8,9 +8,15 @@ export type KeepsakeTone = "tender" | "celebratory" | "reflective" | "hopeful";
  */
 export type PersonStatus = "living" | "passed" | "unspecified";
 
+/**
+ * Two people are involved: the writer (the person using the app, "you" in the
+ * form) and the remembered person ("them"). `name` and `relationship` describe
+ * the remembered person; `writerName` is the writer's own, optional name.
+ */
 export interface MemoryInput {
   name: string;
   relationship: string;
+  writerName: string;
   status: PersonStatus;
   memories: string;
   moments: string;
