@@ -1,89 +1,78 @@
 # 🕯️ Memory Lantern
 
-> *Turn the small details you remember about someone you love into a letter, a short story or a remembrance card — written by an open-weight AI model.*
+> *Tell it about someone you love, and it writes you a letter, a short story, or a remembrance card you can keep.*
 
-Memory Lantern is an open-source web application that helps people preserve meaningful memories and transform them into beautifully written keepsakes. You share the details: their name, who they are to you, the moments you shared, the songs, food and habits you connect with them. The app shapes those memories into something you can read, copy and keep — powered by **OpenAI's GPT-OSS 20B**, an open-weight model served through **Hugging Face Inference Providers**.
+Memory Lantern is a small, free, open-source website. You type in the things you remember about a person — their name, who they were to you, the songs they loved, the food they made, the little things they always said — and it gently turns those memories into a piece of writing you can read, copy, and save.
+
+The writing is done by an AI model called **GPT-OSS 20B**. It's an "open-weight" model, which just means it's free for anyone to download and use, and it isn't locked to a single company.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-gold.svg)](./LICENSE)
-[![Next.js](https://img.shields.io/badge/Next.js-16-black)](https://nextjs.org)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5-blue)](https://www.typescriptlang.org)
-[![Model](https://img.shields.io/badge/Model-GPT--OSS%2020B-orange)](https://huggingface.co/openai/gpt-oss-20b)
+[![Next.js](https://img.shields.io/badge/Built%20with-Next.js-black)](https://nextjs.org)
+[![TypeScript](https://img.shields.io/badge/TypeScript-blue)](https://www.typescriptlang.org)
+[![Model](https://img.shields.io/badge/AI-GPT--OSS%2020B-orange)](https://huggingface.co/openai/gpt-oss-20b)
 
 ---
 
-## Table of contents
+## What's in this README
 
-- [Why Memory Lantern](#why-memory-lantern)
-- [Features](#features)
-- [Screenshots](#screenshots)
-- [Quick start](#quick-start)
-- [Environment variables](#environment-variables)
-- [Architecture](#architecture)
-- [Project structure](#project-structure)
-- [Open-weight AI integration](#open-weight-ai-integration)
-- [Technology choices](#technology-choices)
-- [Deploying](#deploying)
-- [Privacy](#privacy)
-- [Responsible-use safeguards](#responsible-use-safeguards)
-- [Contributing](#contributing)
+- [Why we built this](#why-we-built-this)
+- [What it does](#what-it-does)
+- [See it running (quick start)](#see-it-running-quick-start)
+- [Settings you can change](#settings-you-can-change)
+- [How it works under the hood](#how-it-works-under-the-hood)
+- [Where the files live](#where-the-files-live)
+- [About the AI model](#about-the-ai-model)
+- [What we built it with](#what-we-built-it-with)
+- [Putting it online](#putting-it-online)
+- [Your privacy](#your-privacy)
+- [How we keep the writing honest](#how-we-keep-the-writing-honest)
+- [Helping out](#helping-out)
 - [License](#license)
 
 ---
 
-## Why Memory Lantern
+## Why we built this
 
-We rarely forget the people we love — but we lose the texture of them. The exact words of a joke. Which song was always playing in the car. How they took their tea. Those details are what make a memory feel like *them*, and most of the time they never get written down.
+We almost never forget the people we love. But we do lose the small things about them. The exact way they told a joke. The song that was always playing in their car. How they liked their tea. Those little details are what make a memory feel real — and most of the time, nobody ever writes them down.
 
-Turning fragments into something whole — a letter for a birthday, a story for the family, a card for a memorial — is hard, especially when you are grieving. General-purpose AI tools tend to make it worse: they fill gaps with generic sentiment, invent anecdotes, or offer to "speak as" the person who died.
+Shaping those scattered memories into something whole is hard. Maybe you want a letter to read at a birthday, a story to share with the family, or a card for a memorial. It's even harder when you're grieving. And honestly, most AI writing tools make it worse — they paper over the gaps with empty phrases, make up things that never happened, or creepily offer to "talk as" the person who passed away.
 
-Memory Lantern is built around three commitments:
+Memory Lantern is built on three simple promises:
 
-1. **Your memories, not invented ones.** The model may add feeling and reflection. It must not add facts, events, dates, quotes or people you didn't provide.
-2. **Never their voice.** Keepsakes are written as *you*, about them. The app never impersonates anyone, never writes "messages from" the deceased and never implies contact from beyond death.
-3. **Nothing kept.** No accounts. No database. Your memories live only in your browser tab and in the single request that writes your keepsake.
-
----
-
-## Features
-
-- **Welcoming landing page** explaining the purpose, the three formats, the app's promises and exactly how your data is handled
-- **Three-step memory form:**
-  - Name and relationship (required)
-  - Whether the person is living, has passed, or you'd rather not say — prevents the model from assuming someone has died
-  - Memories (required), important moments, favourite things and additional context
-  - Format: personal letter, short story or remembrance card
-  - Tone: tender, celebratory, reflective or hopeful
-- **Genuine AI generation** via a secure server-side route — the token never touches the browser
-- **Format-specific reading view:** letters in prose, stories with drop caps, remembrance cards in a framed layout with ornamental dividers
-- **Regenerate** — asks for a different angle from the same memories
-- **Copy** and **Download .txt** — with a sensible filename
-- Loading state with a cancel option, inline field validation, and error messages written for people rather than developers
-- Responsive dark design: charcoal, ivory and gold with Cormorant Garamond, Newsreader and Inter
-- `prefers-reduced-motion` support, labelled form controls, visible focus states and ARIA live regions
+1. **Only your memories — nothing invented.** The AI can add warmth and feeling, but it will never make up facts, dates, quotes, or events you didn't give it.
+2. **It writes as you, never as them.** Everything is written in *your* voice, about the person. It never pretends to be them, never writes fake "messages from" someone who died, and never suggests they're speaking from beyond.
+3. **Nothing is saved.** There are no accounts and no database. What you write stays in your browser and is gone the moment you close the tab.
 
 ---
 
-## Screenshots
+## What it does
 
-| Landing page | Create — with result |
-|:---:|:---:|
-| *Deep charcoal hero with animated lantern* | *Two-column studio — form left, keepsake right* |
-
-> Screenshots shown above are taken against a live mock provider. Run the app with a real `HF_TOKEN` to see actual GPT-OSS 20B output.
+- **A welcoming home page** that explains what the app is for and exactly what happens to your words.
+- **A simple three-step form** where you share:
+  - Their name and who they were to you
+  - Whether they're still with you, have passed away, or you'd rather not say (this gently guides the tone — and makes sure the AI never *assumes* someone has died)
+  - Your memories, important moments, their favourite things, and anything else you'd like to add
+  - Which kind of keepsake you want: a **letter**, a **short story**, or a **remembrance card**
+  - The feeling you want: tender, celebratory, reflective, or hopeful
+- **Real writing from a real AI model** — not pre-written templates or fake examples.
+- **A beautiful reading view** that styles each format differently — a flowing letter, a story with a decorated first letter, or a framed card.
+- **Try again** to get a fresh version from the same memories, plus **Copy** and **Download** buttons.
+- **Thoughtful touches:** a calm loading screen you can cancel, clear messages when something's missing, and errors written in plain English instead of computer-speak.
+- **A warm, candlelit design** in charcoal, ivory, and gold — and it works just as nicely on a phone as on a laptop.
 
 ---
 
-## Quick start
+## See it running (quick start)
 
-**Requirements:** Node.js 20.9 or later, and a Hugging Face account.
+**You'll need:** [Node.js](https://nodejs.org) version 20.9 or newer, and a free [Hugging Face](https://huggingface.co) account.
 
-### 1 — Get a Hugging Face token
+### Step 1 — Get your free AI key
 
-Go to [huggingface.co/settings/tokens](https://huggingface.co/settings/tokens) and create a **fine-grained** token with **"Make calls to Inference Providers"** enabled.
+Hugging Face is the service that runs the AI model for you. Go to [huggingface.co/settings/tokens](https://huggingface.co/settings/tokens), create a **fine-grained** token, and turn on the option that says **"Make calls to Inference Providers."** Copy the token it gives you — it starts with `hf_`.
 
-> Free accounts include a small monthly inference credit. Usage is billed per token against your Hugging Face account.
+> New accounts get a small amount of free usage each month. After that, it costs a few cents per keepsake.
 
-### 2 — Clone and install
+### Step 2 — Download the project
 
 ```bash
 git clone https://github.com/your-username/memory-lantern.git
@@ -91,25 +80,29 @@ cd memory-lantern
 npm install
 ```
 
-### 3 — Configure
+(`npm install` downloads everything the project needs. It can take a minute.)
+
+### Step 3 — Add your key
 
 ```bash
 cp .env.example .env.local
 ```
 
-Open `.env.local` and set your token:
+Open the new `.env.local` file in any text editor and paste in your key:
 
 ```env
 HF_TOKEN=hf_your_token_here
 ```
 
-### 4 — Run
+### Step 4 — Start it up
 
 ```bash
-npm run dev       # development server at http://localhost:3000
+npm run dev
 ```
 
-For a production build:
+Now open **http://localhost:3000** in your browser. That's it — you're running Memory Lantern.
+
+When you're ready to run the finished, faster version:
 
 ```bash
 npm run build
@@ -118,109 +111,104 @@ npm start
 
 ---
 
-## Environment variables
+## Settings you can change
 
-| Variable | Default | Required | Purpose |
-|---|---|---|---|
-| `HF_TOKEN` | — | ✅ Yes | Hugging Face access token. Server-side only — never sent to the browser. |
-| `HF_MODEL` | `openai/gpt-oss-20b` | No | Model ID. Append `:provider` to pin a provider (e.g. `openai/gpt-oss-20b:groq`). |
-| `HF_BASE_URL` | `https://router.huggingface.co/v1` | No | Any OpenAI-compatible chat-completions endpoint. |
-| `HF_REASONING_EFFORT` | `low` | No | `low`, `medium`, `high`, or `none` to omit the parameter entirely. |
-| `RATE_LIMIT_PER_MINUTE` | `8` | No | Max requests per minute per IP to `/api/generate`. |
+All of these go in your `.env.local` file. Only the first one is required.
 
----
-
-## Architecture
-
-```
-Browser (React client)                      Next.js server                            Inference
-──────────────────────                      ──────────────                            ─────────
-MemoryStudio                                POST /api/generate                        Hugging Face router
- ├─ MemoryForm  ──validate (shared)──┐       ├─ content-type + size checks            router.huggingface.co/v1
- ├─ useKeepsake ─── fetch JSON ──────┼─────▶ ├─ in-memory rate limit (per IP)              │
- └─ KeepsakeReader ◀── keepsake ─────┘       ├─ parseInput + validateInput                 ▼
-     copy / download / regenerate            ├─ buildMessages (prompts.ts)  ──────▶ provider running
-                                             ├─ createChatCompletion                  openai/gpt-oss-20b
-                                             └─ cleanModelOutput ◀───────────────── chat completion
-```
-
-### Request lifecycle
-
-| Step | What happens |
-|---|---|
-| **1. Client validation** | `validateInput` checks required fields, length limits and allowed enum values. The server runs the same function — rules can't drift. |
-| **2. Server hardening** | Rejects non-JSON (415) and bodies over 16 KB (413). Rate-limits per IP with a `Retry-After` header on 429. Returns structured `fieldErrors` on 422. |
-| **3. Prompt construction** | `buildMessages` wraps user text in `<memory_material>` tags, then attaches format instructions (with word count and structure), tone guidance and status guidance. A `regenerate` flag asks for a different angle. |
-| **4. Inference** | POSTs to `${HF_BASE_URL}/chat/completions` with a per-format token budget, `temperature` (0.8 or 0.95 on regenerate), `top_p` and `reasoning_effort`. Times out after 60 s. |
-| **5. Error mapping** | 401/402/403 → `provider_auth`, 429 → `rate_limited`, 400/404 → `provider_error`, network failure → `provider_unavailable`, abort → `timeout`, empty output → `empty_response`. Logs record status and provider message only — never the user's memories. |
-| **6. Output cleanup** | Strips `<think>` tags, markdown emphasis, bullet characters and code fences. Keeps `# ` and `## ` markers for `KeepsakeView` to render with format-specific typography. |
+| Setting | What it's for | Default |
+|---|---|---|
+| `HF_TOKEN` | **Required.** Your Hugging Face key. It stays on the server and is never shown to visitors. | *(none)* |
+| `HF_MODEL` | Which AI model to use. You can swap in a different open model here. | `openai/gpt-oss-20b` |
+| `HF_BASE_URL` | Where to send requests. Change this if you're running the AI on your own computer. | Hugging Face's address |
+| `HF_REASONING_EFFORT` | How hard the model "thinks" before answering: `low`, `medium`, `high`, or `none`. | `low` |
+| `RATE_LIMIT_PER_MINUTE` | How many keepsakes one visitor can make per minute, to prevent overuse. | `8` |
 
 ---
 
-## Project structure
+## How it works under the hood
+
+Here's the journey your words take, from the moment you press the button to the keepsake appearing on screen:
+
+```
+Your browser                    Memory Lantern's server               The AI model
+────────────                    ──────────────────────               ────────────
+You fill in the form  ───────▶  Checks everything is filled in
+                                Makes sure nobody's overusing it
+                                Writes careful instructions   ──────▶ Writes your keepsake
+Your keepsake appears ◀───────  Tidies up the result          ◀────── Sends it back
+```
+
+Step by step:
+
+1. **It checks your form.** Before anything is sent, the app makes sure the required fields are filled in and not too long. The same check runs again on the server, so nothing slips through.
+2. **It protects the server.** It turns away requests that are too big or malformed, and limits how often one person can ask, so the service stays available for everyone.
+3. **It writes careful instructions for the AI.** Your memories are clearly marked as *your words to write from* — not as commands — and the AI is given firm rules: stick to the facts you gave, match the format and tone, and never speak as the person.
+4. **It asks the AI.** The request goes off to the model and waits up to 60 seconds for an answer.
+5. **If something goes wrong,** it explains it in plain language — a bad key, the service being busy, a timeout — instead of showing a scary error. And it never writes your private memories into its logs.
+6. **It tidies up the writing** and lays it out beautifully for the format you chose.
+
+---
+
+## Where the files live
+
+If you're curious or want to make changes, here's a map of the project:
 
 ```
 src/
-├─ app/
-│  ├─ layout.tsx                  fonts, header/footer, global metadata
-│  ├─ page.tsx                    landing page
-│  ├─ create/
-│  │  └─ page.tsx                 /create — heading + MemoryStudio
-│  ├─ api/
-│  │  └─ generate/
-│  │     └─ route.ts              POST /api/generate
-│  └─ globals.css                 Tailwind v4 @theme tokens, candlelight radial, grain texture
+├─ app/                          the pages people see
+│  ├─ page.tsx                   the home page
+│  ├─ create/page.tsx            the page where you write a keepsake
+│  ├─ api/generate/route.ts      the behind-the-scenes code that talks to the AI
+│  ├─ layout.tsx                 the shared frame (header, footer, fonts)
+│  └─ globals.css                the colours and visual style
 │
-├─ components/
-│  ├─ Lantern.tsx                 animated SVG lantern with flickering flame
-│  ├─ SiteHeader.tsx              sticky nav with CTA
-│  ├─ SiteFooter.tsx              tagline + model credit
-│  ├─ PrivacyNotice.tsx           pre-generation disclosure (text leaves the device)
-│  └─ studio/
-│     ├─ MemoryStudio.tsx         orchestrates form ↔ loading ↔ error ↔ reader
-│     ├─ MemoryForm.tsx           three-step input form
-│     ├─ Field.tsx                TextField + TextAreaField with character counters
-│     ├─ FormatPicker.tsx         card-style radio buttons for letter / story / card
-│     ├─ ChoicePills.tsx          pill-style radio buttons for tone and status
-│     ├─ KeepsakeReader.tsx       copy / download / regenerate action bar
-│     ├─ KeepsakeView.tsx         format-specific typography renderer
-│     └─ StatusPanels.tsx         empty, generating and error panels
+├─ components/                   reusable pieces of the interface
+│  ├─ Lantern.tsx                the little animated lantern
+│  ├─ SiteHeader.tsx             the top navigation bar
+│  ├─ SiteFooter.tsx             the footer
+│  ├─ PrivacyNotice.tsx          the "here's what happens to your words" note
+│  └─ studio/                    everything on the writing page
+│     ├─ MemoryStudio.tsx        ties the form and the result together
+│     ├─ MemoryForm.tsx          the three-step form
+│     ├─ Field.tsx               text boxes with character counters
+│     ├─ FormatPicker.tsx        the letter / story / card chooser
+│     ├─ ChoicePills.tsx         the tone and status buttons
+│     ├─ KeepsakeReader.tsx      the copy / download / try-again buttons
+│     ├─ KeepsakeView.tsx        displays the finished keepsake
+│     └─ StatusPanels.tsx        the loading, empty, and error screens
 │
 ├─ hooks/
-│  └─ useKeepsake.ts              fetch lifecycle — loading, cancel, result, source tracking
+│  └─ useKeepsake.ts             manages talking to the server
 │
-├─ lib/
+├─ lib/                          the logic and helpers
 │  ├─ ai/
-│  │  ├─ prompts.ts               system prompt + format/tone/status instructions
-│  │  ├─ huggingface.ts           OpenAI-compatible fetch client + error mapping
-│  │  └─ generate.ts              calls model, validates output length, returns Keepsake
-│  ├─ validation.ts               field limits + validateInput / parseInput (shared)
-│  ├─ keepsake-text.ts            cleanModelOutput, parseKeepsake, toPlainText, filename
-│  ├─ formats.ts                  format, tone and status option lists
-│  └─ rate-limit.ts               fixed-window per-IP rate limiter
+│  │  ├─ prompts.ts              the instructions we give the AI (the heart of the app)
+│  │  ├─ huggingface.ts          the code that actually calls the AI
+│  │  └─ generate.ts             ties the prompt and the call together
+│  ├─ validation.ts              the rules for checking the form
+│  ├─ keepsake-text.ts           tidies and formats the AI's writing
+│  ├─ formats.ts                 the list of formats, tones, and options
+│  └─ rate-limit.ts              stops the service being overused
 │
 └─ types/
-   └─ memory.ts                   MemoryInput, Keepsake, GenerateResponse, KeepsakeBlock…
+   └─ memory.ts                  shared definitions so the code stays consistent
 ```
 
 ---
 
-## Open-weight AI integration
+## About the AI model
 
 | | |
 |---|---|
-| **Model** | [`openai/gpt-oss-20b`](https://huggingface.co/openai/gpt-oss-20b) — 21B-parameter mixture-of-experts (~3.6B active), Apache 2.0 licence |
-| **Access** | [Hugging Face Inference Providers](https://huggingface.co/docs/inference-providers) via the OpenAI-compatible router at `https://router.huggingface.co/v1` |
-| **Transport** | Plain `fetch` with no SDK — the full integration lives in [`src/lib/ai/huggingface.ts`](src/lib/ai/huggingface.ts) |
-| **Reasoning** | GPT-OSS reasons before it answers. `reasoning_effort` defaults to `low` for speed; token budgets leave headroom for reasoning tokens. |
+| **The model** | [GPT-OSS 20B](https://huggingface.co/openai/gpt-oss-20b) — a capable open model from OpenAI, free for anyone to use. |
+| **Who runs it** | [Hugging Face](https://huggingface.co/docs/inference-providers), which runs the model on their servers so you don't have to. |
+| **How we talk to it** | A simple, direct connection with no heavy extra software — all the code is in one short file, [`huggingface.ts`](src/lib/ai/huggingface.ts), so you can read exactly what's sent. |
 
-### Why an open-weight model?
+**Why an open model and not something like ChatGPT or Claude?**
+Because an open model belongs to everyone. Anyone can download it, see how it works, and run it themselves — on a cloud service today, or on their own computer tomorrow — without asking permission or being tied to one company. It's also small enough to run on a single good graphics card, or even a decent laptop.
 
-Anyone can download, inspect and run GPT-OSS. It's not tied to one vendor. The same app can run on a hosted provider today and on your own hardware tomorrow, with no licence change needed. It's also compact enough for a single GPU — or a well-equipped laptop — to serve.
-
-### Pinning a provider
-
-By default Hugging Face routes the request automatically. To pin one:
+**Want to use a different provider?**
+You can pick which company runs the model by adding its name to the `HF_MODEL` setting:
 
 ```bash
 HF_MODEL=openai/gpt-oss-20b:groq
@@ -228,114 +216,107 @@ HF_MODEL=openai/gpt-oss-20b:cerebras
 HF_MODEL=openai/gpt-oss-20b:fireworks-ai
 ```
 
-### Self-hosting
-
-Any server that speaks the OpenAI chat-completions protocol works:
+**Want to run the AI entirely on your own computer?**
+You can — nothing then ever leaves your machine. Tools like [vLLM](https://github.com/vllm-project/vllm) or [Ollama](https://ollama.com) will run the model locally:
 
 ```bash
-# vLLM
-vllm serve openai/gpt-oss-20b
-HF_BASE_URL=http://localhost:8000/v1
-HF_MODEL=openai/gpt-oss-20b
-HF_TOKEN=local                      # any non-empty string
-
-# Ollama
+# Using Ollama
 ollama pull gpt-oss:20b
+
+# then put these in your .env.local:
 HF_BASE_URL=http://localhost:11434/v1
 HF_MODEL=gpt-oss:20b
-HF_TOKEN=ollama
+HF_TOKEN=ollama      # any word works here when running locally
 ```
 
-> If your server rejects `reasoning_effort`, set `HF_REASONING_EFFORT=none`.
+> If your local setup complains about the "reasoning" setting, add `HF_REASONING_EFFORT=none`.
 
 ---
 
-## Technology choices
+## What we built it with
 
-| | Reason |
+| Tool | Why |
 |---|---|
-| **Next.js 16 App Router** | One codebase for static pages and the server API route. `HF_TOKEN` stays server-side and never reaches the browser. |
-| **React 19** | Server Components for the pages, a single Client Component tree for the studio. |
-| **TypeScript 5** | `GenerateResponse` is a discriminated union shared by client and server — rules can't drift. |
-| **Tailwind CSS v4** | Design tokens (`charcoal`, `ivory`, `gold`, `ember`) defined once in `@theme`; no config file. |
-| **`next/font`** | Self-hosts Cormorant Garamond, Newsreader and Inter at build time — zero layout shift, no external requests. |
-| **`server-only`** | Marks the AI and rate-limit modules so the build fails if they're accidentally imported in a Client Component. |
-| **No DB / auth / payments** | Deliberate for v1. Memories should be ephemeral. |
+| **Next.js & React** | A modern framework that handles both the pages people see and the private server code in one project — so your AI key never reaches anyone's browser. |
+| **TypeScript** | A safer flavour of JavaScript that catches mistakes early and keeps the whole project consistent. |
+| **Tailwind CSS** | Lets us build the warm, candlelit look quickly, with all the colours defined in one place. |
+| **Self-hosted fonts** | The elegant typefaces load from the app itself, so they're fast and don't phone home to anyone. |
+| **No database, no logins, no payments** | A deliberate choice. Memories should be private and fleeting, not stored. |
 
 ---
 
-## Deploying
+## Putting it online
 
-The app deploys anywhere Next.js runs: Vercel, Netlify, Railway, a bare Node server or a container.
+Memory Lantern can be hosted almost anywhere that runs modern web apps — Vercel, Netlify, Railway, your own server, and more.
 
 ```bash
 npm run build
 npm start
 ```
 
-Set `HF_TOKEN` as a **secret** environment variable — never commit it.
+Just remember two things:
 
-**Rate limiting note.** The built-in limiter is in-process. On serverless platforms or across multiple instances, add a shared limiter (e.g. Upstash Redis + `@upstash/ratelimit`) or rely on platform-level rate limiting instead.
-
----
-
-## Privacy
-
-Memory Lantern handles some of the most personal writing people do. Here is exactly what happens to that writing:
-
-**In your browser**
-Form input and generated keepsakes are held in React state only. Nothing is written to `localStorage`, cookies or IndexedDB. Closing or refreshing the tab clears everything.
-
-**On the Memory Lantern server**
-The API route receives your memories, builds a prompt, forwards it and returns the result. It does not store request bodies, write them to disk or log them. Error logs record only the HTTP status and the provider's error message — never your text.
-
-**At the inference provider — this is not offline or on-device processing**
-To generate a keepsake, the server sends your text (inside the prompt) to Hugging Face's router, which forwards it to a third-party provider such as Groq, Cerebras, Fireworks or Together. Those companies process the text under their own privacy policies and data-retention terms. Review [Hugging Face's Inference Providers documentation](https://huggingface.co/docs/inference-providers) and the policy of the provider you pin before using the app with sensitive material.
-
-**For full privacy**, self-host the model (see [Self-hosting](#self-hosting)) and point `HF_BASE_URL` at your own server. Your memories then never leave infrastructure you control.
-
-**Analytics:** none. No tracking pixels, no third-party scripts. Fonts are self-hosted.
-
-The interface discloses this before anything is sent — in the privacy notice beside the generate button and on the landing page.
+- Add your `HF_TOKEN` as a **secret** setting in your hosting dashboard. Never put it in a file you share publicly.
+- The built-in overuse limit works per server. If you run several servers at once, you'll want a shared limit (many hosts offer this) instead.
 
 ---
 
-## Responsible-use safeguards
+## Your privacy
 
-- The system prompt forbids inventing facts, dates, quotes, events or people the user didn't provide.
-- It forbids impersonating the person, speaking for them, or implying any form of contact from beyond death.
-- The model is told explicitly not to assume someone has died unless the user says so.
-- User text is wrapped in `<memory_material>` tags, labelled as source material rather than instructions — this reduces prompt injection risk.
-- The reading view reminds people to check the result, because only they know what's true.
+Memory Lantern deals with some of the most personal writing there is, so here's exactly what happens to your words — in plain terms.
 
-> No prompt engineering guarantees model behaviour. These safeguards make problems much less likely, but not impossible. Please read every keepsake before you share it.
+**In your browser:** Everything you type stays in your browser and nowhere else. Nothing is saved to your device. Close or refresh the tab and it's all gone.
 
----
+**On Memory Lantern's server:** Your words pass through just long enough to be turned into a keepsake. They aren't saved, written to disk, or kept in any logs. If an error happens, only the error itself is recorded — never your memories.
 
-## Contributing
+**At the AI service — and this is important:** Memory Lantern is *not* fully private or offline. To write your keepsake, your words are sent to Hugging Face, which passes them to whichever company is running the model (such as Groq, Cerebras, or Fireworks). Those companies handle your text under their own privacy rules. If what you're writing is very sensitive, please read [Hugging Face's privacy information](https://huggingface.co/docs/inference-providers) first.
 
-Contributions are welcome. A few things to know before opening a PR:
+**If you want complete privacy:** run the AI model on your own computer (see [above](#about-the-ai-model)). Then your words never leave your own machine.
 
-- Run `npm run lint` and `npx tsc --noEmit` before pushing.
-- The validation rules in `src/lib/validation.ts` are shared by the client and the server — if you change a limit, it applies to both.
-- The prompt in `src/lib/ai/prompts.ts` is the ethical core of the app. Changes there need care: the rules around not inventing facts and not impersonating people are non-negotiable.
-- Memories are ephemeral by design. Please don't add storage, analytics or tracking without a very strong reason and clear user disclosure.
+**No tracking:** There are no ads, no analytics, and no hidden trackers of any kind.
+
+The app tells you all of this up front — right next to the button you press, and on the home page.
 
 ---
 
-## Scripts
+## How we keep the writing honest
+
+Writing about someone you love carries real responsibility. Here's how the app tries to get it right:
+
+- The AI is firmly instructed never to invent facts, dates, quotes, or events you didn't provide.
+- It's told never to pretend to be the person, speak for them, or suggest any kind of contact after death.
+- It never assumes someone has passed away unless you say so.
+- Your memories are clearly marked as *material to write from*, not as instructions — which helps stop the AI being tricked or going off-script.
+- The finished keepsake comes with a gentle reminder to read it over, because only you know what's truly right.
+
+> One honest note: no set of instructions can *guarantee* how an AI will behave every single time. These safeguards make problems much less likely, but not impossible. Please always read a keepsake before you share or keep it.
+
+---
+
+## Helping out
+
+Contributions are very welcome. A few friendly notes before you dive in:
+
+- Run `npm run lint` before sharing changes, to keep the code tidy.
+- The form rules in `src/lib/validation.ts` are used in two places at once — change a rule there and it applies everywhere.
+- The instructions in `src/lib/ai/prompts.ts` are the ethical heart of this app. Please treat them with care: the rules about not inventing facts and not impersonating people are not up for negotiation.
+- Memories are meant to be fleeting. Please don't add saving, tracking, or analytics without a very good reason and a clear, honest notice to the people using it.
+
+---
+
+## Quick command reference
 
 ```bash
-npm run dev     # start the development server (http://localhost:3000)
-npm run build   # production build
-npm start       # serve the production build
-npm run lint    # run ESLint
+npm run dev     # run it on your own computer while developing
+npm run build   # prepare the finished, fast version
+npm start       # run the finished version
+npm run lint    # check the code for tidiness
 ```
 
 ---
 
 ## License
 
-The application code is released under the **MIT License** — see [LICENSE](./LICENSE).
+The app's code is free to use under the **MIT License** — see [LICENSE](./LICENSE).
 
-GPT-OSS model weights are released by OpenAI under the **Apache 2.0 License**.
+The GPT-OSS AI model is released separately by OpenAI under the **Apache 2.0 License**.
