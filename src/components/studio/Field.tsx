@@ -64,7 +64,7 @@ function FieldShell({
 }
 
 const inputClass = (error?: string) =>
-  `w-full rounded-lg border bg-charcoal/80 px-3.5 py-2.5 text-[15px] text-ivory placeholder:text-dusk/80 transition-colors focus:outline-none focus:ring-2 focus:ring-gold/40 ${
+  `w-full rounded-lg border bg-ash px-3.5 py-2.5 text-[15px] text-ivory placeholder:text-dusk/80 transition-colors focus:outline-none focus:ring-2 focus:ring-gold/40 ${
     error ? "border-rose/70 focus:border-rose" : "border-line focus:border-gold/70"
   }`;
 
