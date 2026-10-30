@@ -60,7 +60,7 @@ function CardView({ blocks }: { blocks: KeepsakeBlock[] }) {
           <h3 className="mt-4 font-display text-3xl leading-tight text-ivory sm:text-4xl">{title.text}</h3>
         )}
         {dedication && (
-          <p className="mt-2 font-display text-lg italic text-mist">
+          <p className="mt-2 font-display text-lg text-mist">
             <Lines text={dedication.text} />
           </p>
         )}
