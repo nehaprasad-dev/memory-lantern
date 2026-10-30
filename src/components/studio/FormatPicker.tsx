@@ -24,16 +24,16 @@ export function FormatPicker({ value, onChange }: FormatPickerProps) {
   return (
     <fieldset>
       <legend className="mb-3 text-sm font-medium text-parchment">What should we write?</legend>
-      <div className="grid gap-3 sm:grid-cols-3">
+      <div className="grid gap-3">
         {FORMATS.map((format) => {
           const selected = format.id === value;
           return (
             <label
               key={format.id}
-              className={`relative flex cursor-pointer flex-col gap-1.5 rounded-xl border p-4 transition-all has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-gold/60 ${
+              className={`relative flex cursor-pointer items-center gap-4 rounded-xl border px-4 py-3.5 transition-all has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-gold/60 ${
                 selected
-                  ? "border-gold/80 bg-gold/[0.07] shadow-[0_0_30px_-12px_rgb(232_162_79/0.6)]"
-                  : "border-line bg-charcoal/60 hover:border-gold/40"
+                  ? "border-gold/80 bg-gold/[0.07] shadow-[0_8px_24px_-14px_rgb(165_112_31/0.5)]"
+                  : "border-line bg-ash hover:border-gold/40"
               }`}
             >
               <input
@@ -46,7 +46,7 @@ export function FormatPicker({ value, onChange }: FormatPickerProps) {
               />
               <svg
                 viewBox="0 0 24 24"
-                className={`h-5 w-5 ${selected ? "text-gold-soft" : "text-mist"}`}
+                className={`h-9 w-9 shrink-0 rounded-lg p-2 ${selected ? "bg-gold/15 text-gold-soft" : "bg-charcoal text-mist"}`}
                 fill="none"
                 stroke="currentColor"
                 strokeWidth="1.4"
@@ -54,8 +54,14 @@ export function FormatPicker({ value, onChange }: FormatPickerProps) {
               >
                 {ICONS[format.id]}
               </svg>
-              <span className="font-display text-lg leading-tight text-ivory">{format.label}</span>
-              <span className="text-xs leading-snug text-mist">{format.tagline}</span>
+              <span className="flex min-w-0 flex-1 flex-col">
+                <span className="font-display text-lg leading-tight text-ivory">{format.label}</span>
+                <span className="text-sm leading-snug text-mist">{format.description}</span>
+              </span>
+              <span
+                aria-hidden="true"
+                className={`h-4 w-4 shrink-0 rounded-full border ${selected ? "border-[5px] border-gold" : "border-line"}`}
+              />
             </label>
           );
         })}
