@@ -23,12 +23,13 @@ export function MemoryForm({ value, errors, loading, onChange, onSubmit, onClear
     e.preventDefault();
     onSubmit();
   };
-  const name = value.name.trim() || "them";
+  const typedName = value.name.trim();
+  const name = typedName || "them";
 
   return (
     <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-8">
       <section className="flex flex-col gap-5">
-        <StepHeading step="I" title="Who are you remembering?" />
+        <StepHeading step="1" title="Who are you remembering?" />
         <div className="grid gap-5 sm:grid-cols-2">
           <TextField
             label="Their name"
@@ -40,7 +41,7 @@ export function MemoryForm({ value, errors, loading, onChange, onSubmit, onClear
             required
           />
           <TextField
-            label="Your relationship"
+            label="Who they are to you"
             value={value.relationship}
             onChange={(v) => onChange("relationship", v)}
             error={errors.relationship}
@@ -48,9 +49,18 @@ export function MemoryForm({ value, errors, loading, onChange, onSubmit, onClear
             placeholder="e.g. my grandmother"
             required
           />
+          <TextField
+            label="Your name"
+            hint="Signs the letter."
+            value={value.writerName}
+            onChange={(v) => onChange("writerName", v)}
+            error={errors.writerName}
+            maxLength={LIMITS.writerName.max}
+            placeholder="e.g. Meera"
+          />
         </div>
         <ChoicePills
-          legend="Are they still with you?"
+          legend={typedName ? `Is ${typedName} still with you?` : "Are they still with you?"}
           name="status"
           options={STATUSES}
           value={value.status}
@@ -59,10 +69,10 @@ export function MemoryForm({ value, errors, loading, onChange, onSubmit, onClear
       </section>
 
       <section className="flex flex-col gap-5">
-        <StepHeading step="II" title="What do you remember?" />
+        <StepHeading step="2" title="What do you remember?" />
         <TextAreaField
-          label="Your memories"
-          hint={`The little details matter most — the way ${name} laughed, what they always said, how a room felt with them in it.`}
+          label={`Your memories of ${name}`}
+          hint={`Only what you write here is used. The little details matter most — the way ${typedName || "they"} laughed, what they always said.`}
           value={value.memories}
           onChange={(v) => onChange("memories", v)}
           error={errors.memories}
@@ -103,7 +113,7 @@ export function MemoryForm({ value, errors, loading, onChange, onSubmit, onClear
       </section>
 
       <section className="flex flex-col gap-5">
-        <StepHeading step="III" title="Shape the keepsake" />
+        <StepHeading step="3" title="Shape the keepsake" />
         <FormatPicker value={value.format} onChange={(v) => onChange("format", v)} />
         <ChoicePills
           legend="Tone"
@@ -128,7 +138,7 @@ export function MemoryForm({ value, errors, loading, onChange, onSubmit, onClear
         <button
           type="submit"
           disabled={loading}
-          className="inline-flex items-center justify-center gap-2 rounded-full bg-gold px-7 py-3 text-sm font-semibold text-night shadow-[0_0_40px_-10px_rgb(232_162_79/0.8)] transition-all hover:bg-gold-soft disabled:cursor-wait disabled:opacity-70"
+          className="inline-flex items-center justify-center gap-2 rounded-full bg-gold px-7 py-3 text-sm font-semibold text-night shadow-[0_10px_30px_-12px_rgb(165_112_31/0.6)] transition-all hover:-translate-y-0.5 hover:bg-gold-soft disabled:cursor-wait disabled:opacity-70"
         >
           {loading ? "Writing…" : "Write my keepsake"}
         </button>
@@ -139,8 +149,10 @@ export function MemoryForm({ value, errors, loading, onChange, onSubmit, onClear
 
 function StepHeading({ step, title }: { step: string; title: string }) {
   return (
-    <div className="flex items-baseline gap-3 border-b border-line/70 pb-3">
-      <span className="font-display text-sm tracking-[0.2em] text-gold">{step}</span>
+    <div className="flex items-center gap-3 border-b border-line/70 pb-3">
+      <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-gold/10 text-sm font-semibold text-gold-soft ring-1 ring-gold/30">
+        {step}
+      </span>
       <h2 className="font-display text-2xl text-ivory">{title}</h2>
     </div>
   );
