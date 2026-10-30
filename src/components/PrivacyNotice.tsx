@@ -11,10 +11,10 @@ export function PrivacyNotice({ className = "" }: PrivacyNoticeProps) {
     >
       <p className="mb-1 font-medium text-parchment">Before you write</p>
       <p>
-        When you press generate, what you&apos;ve written here is sent from our server to a
-        hosted inference provider through Hugging Face, so the open-weight model can write your
-        keepsake. This is not offline or on-device processing. Memory Lantern doesn&apos;t save
-        your memories or keepsakes — they live only in this browser tab until you close it.
+        When you press generate, what you&apos;ve written here is sent from our server to
+        Groq, a hosted inference provider, so the open-weight model can write your keepsake.
+        This is not offline or on-device processing. Memory Lantern doesn&apos;t save your
+        memories or keepsakes — they live only in this browser tab until you close it.
       </p>
     </aside>
   );
