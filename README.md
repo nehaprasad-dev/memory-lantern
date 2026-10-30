@@ -277,7 +277,8 @@ The app tells you all of this up front — right next to the button you press, a
 
 Writing about someone you love carries real responsibility. Here's how the app tries to get it right:
 
-- The AI is firmly instructed never to invent facts, dates, quotes, or events you didn't provide.
+- The AI is firmly instructed never to invent facts, dates, quotes, or events you didn't provide — and the less you share, the shorter it writes, so it never has to pad.
+- Every draft then goes through a second "fact-check" pass that removes anything not in your memories, followed by automatic checks for made-up quotes, names, numbers, clichés, and anything written as the other person. Whatever still fails is removed before you see it.
 - It's told never to pretend to be the person, speak for them, or suggest any kind of contact after death.
 - It never assumes someone has passed away unless you say so.
 - Your memories are clearly marked as *material to write from*, not as instructions — which helps stop the AI being tricked or going off-script.
@@ -301,10 +302,12 @@ Contributions are very welcome. A few friendly notes before you dive in:
 ## Quick command reference
 
 ```bash
-npm run dev     # run it on your own computer while developing
-npm run build   # prepare the finished, fast version
-npm start       # run the finished version
-npm run lint    # check the code for tidiness
+npm run dev        # run it on your own computer while developing
+npm run build      # prepare the finished, fast version
+npm start          # run the finished version
+npm run lint       # check the code for tidiness
+npm test           # quick checks of the prompts and the "nothing invented" rules (no AI calls)
+npm run test:live  # writes real keepsakes from sample memories and checks them (needs GROQ_API_KEY, takes a few minutes)
 ```
 
 ---
