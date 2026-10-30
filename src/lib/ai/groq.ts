@@ -4,11 +4,12 @@ import type { GenerateErrorCode } from "@/types/memory";
 import type { ChatMessage } from "./prompts";
 
 /**
- * Hugging Face Inference Providers exposes an OpenAI-compatible
- * chat-completions endpoint that routes to the provider serving the model.
- * Docs: https://huggingface.co/docs/inference-providers
+ * Groq serves GPT-OSS 20B behind an OpenAI-compatible chat-completions API.
+ * GPT-OSS reasoning comes back in `message.reasoning`, separate from
+ * `message.content`, so only the content is used.
+ * Docs: https://console.groq.com/docs/openai
  */
-const DEFAULT_BASE_URL = "https://router.huggingface.co/v1";
+const DEFAULT_BASE_URL = "https://api.groq.com/openai/v1";
 const DEFAULT_MODEL = "openai/gpt-oss-20b";
 const REQUEST_TIMEOUT_MS = 60_000;
 
@@ -31,20 +32,20 @@ export interface InferenceConfig {
 }
 
 export function getInferenceConfig(): InferenceConfig {
-  const token = process.env.HF_TOKEN?.trim();
+  const token = process.env.GROQ_API_KEY?.trim();
   if (!token) {
     throw new ProviderError(
       "not_configured",
-      "Memory Lantern isn't connected to a model yet. Add HF_TOKEN to .env.local and restart the server.",
+      "Memory Lantern isn't connected to a model yet. Add GROQ_API_KEY to .env.local and restart the server.",
       503,
     );
   }
 
-  const effort = process.env.HF_REASONING_EFFORT?.trim().toLowerCase();
+  const effort = process.env.GROQ_REASONING_EFFORT?.trim().toLowerCase();
   return {
     token,
-    baseUrl: (process.env.HF_BASE_URL?.trim() || DEFAULT_BASE_URL).replace(/\/+$/, ""),
-    model: process.env.HF_MODEL?.trim() || DEFAULT_MODEL,
+    baseUrl: (process.env.GROQ_BASE_URL?.trim() || DEFAULT_BASE_URL).replace(/\/+$/, ""),
+    model: process.env.GROQ_MODEL?.trim() || DEFAULT_MODEL,
     reasoningEffort:
       effort === "none" ? undefined : effort === "medium" || effort === "high" ? effort : "low",
   };
@@ -136,28 +137,23 @@ function toProviderError(status: number, data: ChatCompletionResponse | null): P
   if (status === 401 || status === 403) {
     return new ProviderError(
       "provider_auth",
-      "The inference provider rejected the access token. Check that HF_TOKEN is valid and allowed to call Inference Providers.",
+      "Groq rejected the API key. Check that GROQ_API_KEY is set correctly.",
       502,
     );
   }
-  if (status === 402) {
-    return new ProviderError(
-      "provider_auth",
-      "The Hugging Face account has run out of Inference Provider credits.",
-      502,
-    );
-  }
-  if (status === 429) {
+  // Groq's free tier limits tokens and requests per minute and per day; it
+  // answers 429, or 413 when one request would exceed the per-minute tokens.
+  if (status === 429 || status === 413) {
     return new ProviderError(
       "rate_limited",
-      "The model is receiving a lot of requests right now. Please wait a moment and try again.",
+      "Memory Lantern has reached its free usage limit for the moment. Please wait a minute and try again.",
       429,
     );
   }
   if (status === 404 || status === 400) {
     return new ProviderError(
       "provider_error",
-      "The configured model or provider couldn't handle this request. Check HF_MODEL in your environment.",
+      "The configured model or provider couldn't handle this request. Check GROQ_MODEL in your environment.",
       502,
     );
   }
