@@ -1,5 +1,5 @@
 import { generateKeepsake } from "@/lib/ai/generate";
-import { ProviderError } from "@/lib/ai/huggingface";
+import { ProviderError } from "@/lib/ai/groq";
 import { checkRateLimit, clientKey } from "@/lib/rate-limit";
 import { hasErrors, parseInput, validateInput } from "@/lib/validation";
 import type { GenerateErrorCode, GenerateResponse } from "@/types/memory";
