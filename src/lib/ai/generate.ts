@@ -2,7 +2,7 @@ import "server-only";
 
 import type { Keepsake, MemoryInput } from "@/types/memory";
 import { cleanModelOutput } from "@/lib/keepsake-text";
-import { createChatCompletion, ProviderError } from "./huggingface";
+import { createChatCompletion, ProviderError } from "./groq";
 import { buildMessages, MAX_TOKENS } from "./prompts";
 
 /** Build the prompt, call the open-weight model and tidy its output. */
