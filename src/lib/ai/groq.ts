@@ -12,6 +12,7 @@ import type { ChatMessage } from "./prompts";
 const DEFAULT_BASE_URL = "https://api.groq.com/openai/v1";
 const DEFAULT_MODEL = "openai/gpt-oss-20b";
 const REQUEST_TIMEOUT_MS = 60_000;
+const MAX_RETRY_WAIT_S = 20;
 
 export class ProviderError extends Error {
   constructor(
@@ -67,7 +68,7 @@ export interface CompletionResult {
 
 export async function createChatCompletion(
   messages: ChatMessage[],
-  options: { maxTokens: number; temperature: number },
+  options: { maxTokens: number; temperature: number; reasoningEffort?: "low" | "medium" | "high" },
 ): Promise<CompletionResult> {
   const config = getInferenceConfig();
 
@@ -79,11 +80,40 @@ export async function createChatCompletion(
     top_p: 0.95,
     stream: false,
   };
-  if (config.reasoningEffort) body.reasoning_effort = config.reasoningEffort;
+  if (config.reasoningEffort) body.reasoning_effort = options.reasoningEffort ?? config.reasoningEffort;
 
-  let res: Response;
+  let res = await send(config, body);
+  // The free tier allows a fixed number of tokens per minute. When the wait is
+  // short, waiting once is kinder than failing the whole keepsake.
+  const retryAfter = Number(res.headers.get("retry-after"));
+  if (res.status === 429 && retryAfter > 0 && retryAfter <= MAX_RETRY_WAIT_S) {
+    await new Promise((r) => setTimeout(r, retryAfter * 1000));
+    res = await send(config, body);
+  }
+
+  const data = (await res.json().catch(() => null)) as ChatCompletionResponse | null;
+
+  if (!res.ok) throw toProviderError(res.status, data);
+
+  const choice = data?.choices?.[0];
+  const text = choice?.message?.content?.trim() ?? "";
+
+  if (!text) {
+    throw new ProviderError(
+      "empty_response",
+      choice?.finish_reason === "length"
+        ? "The model ran out of room before it finished writing. Please try again."
+        : "The model returned an empty response. Please try again.",
+      502,
+    );
+  }
+
+  return { text, model: data?.model || config.model };
+}
+
+async function send(config: InferenceConfig, body: Record<string, unknown>): Promise<Response> {
   try {
-    res = await fetch(`${config.baseUrl}/chat/completions`, {
+    return await fetch(`${config.baseUrl}/chat/completions`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${config.token}`,
@@ -107,25 +137,6 @@ export async function createChatCompletion(
       502,
     );
   }
-
-  const data = (await res.json().catch(() => null)) as ChatCompletionResponse | null;
-
-  if (!res.ok) throw toProviderError(res.status, data);
-
-  const choice = data?.choices?.[0];
-  const text = choice?.message?.content?.trim() ?? "";
-
-  if (!text) {
-    throw new ProviderError(
-      "empty_response",
-      choice?.finish_reason === "length"
-        ? "The model ran out of room before it finished writing. Please try again."
-        : "The model returned an empty response. Please try again.",
-      502,
-    );
-  }
-
-  return { text, model: data?.model || config.model };
 }
 
 function toProviderError(status: number, data: ChatCompletionResponse | null): ProviderError {
